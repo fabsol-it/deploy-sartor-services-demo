@@ -9,7 +9,7 @@ const keys = require('./config/keys');
 // const storage = multer.memoryStorage();
 // const upload = multer({ storage: storage });
 // const cookieParser = require("cookie-parser");
-mongoose.connect(keys.mongoURI);
+mongoose.connect(process.env.MONGO_URI);
 
 const db = mongoose.connection;
 
