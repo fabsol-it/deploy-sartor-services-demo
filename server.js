@@ -53,12 +53,18 @@ app.use("/api", require("./email/emailRoute"));
 require("./PaymentRoute/paymentRoutes")(app);
 
 const path = require('path');
+const ServerlessHttp = require("serverless-http");
 app.use(express.static(path.join('bespoke', 'dist')));
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'bespoke', 'dist', 'index.html'));
 });
 
-const PORT = process.env.PORT || 6451;
-app.listen(PORT, () => {
-  console.log("Server is running at port: ", PORT);
-});
+// const PORT = process.env.PORT || 6451;
+// app.listen(PORT, () => {
+//   console.log("Server is running at port: ", PORT);
+// });
+
+const router = express.Router();
+
+app.use("/.netlify/functions/app", router);
+module.exports.handler = require("serverless-http")(app);
